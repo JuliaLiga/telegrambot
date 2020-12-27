@@ -1,5 +1,5 @@
-1. Create your bot using @BotFather - give name and get token.
-2. Install packet:
+Create your bot using @BotFather - give name and get token.
+Install packet:
 ```
 yum install epel-release
 yum install python34-devel.x86_64
