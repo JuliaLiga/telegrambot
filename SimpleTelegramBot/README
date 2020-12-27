@@ -8,6 +8,7 @@ yum install python34-devel.x86_64
 3. Create a directory for virtual enviroment (one script - one enviroment):
 ```
 mkdir -p /usr/local/sbin/venvs && cd "$_"
+```
 
 4. Create a virtual "home" for bot:
 ```
