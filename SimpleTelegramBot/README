@@ -13,6 +13,7 @@ mkdir -p /usr/local/sbin/venvs && cd "$_"
 4. Create a virtual "home" for bot:
 ```
 pyvenv-3.4 telebot
+```
 
 5. Activ virtual enviroment:
 ```
