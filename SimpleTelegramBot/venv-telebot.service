@@ -1,0 +1,18 @@
+[Unit]
+Description=Telegram bot written on python 3.6 and executed at python virtual env
+After=syslog.target network.target
+ 
+[Service]
+Type=simple
+User=nobody
+Group=nobody
+WorkingDirectory=/usr/local/sbin/venvs/telebot
+ExecStart=/usr/local/sbin/venvs/telebot/bin/python3 /usr/local/sbin/venvs/telebot/body/bot.py
+Restart=on-abort
+ 
+Environment=VIRTUAL_ENV=/usr/local/sbin/venvs/telebot
+Environment=TELETOKEN=AAFLUFbwX8Qt4Uf23fmA47BUm88hZh5uJ8M
+Environment=PATH=$VIRTUAL_ENV/bin:$PATH
+ 
+[Install]
+WantedBy=multi-user.target
