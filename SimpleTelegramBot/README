@@ -113,3 +113,10 @@ systemctl enable venv-telebot.service
 ```
 systemctl start venv-telebot.service
 ```
+
+Установка ansible и git
+```
+yum install -y epel-release
+yum install -y ansible git
+```
+
