@@ -1,0 +1,113 @@
+1. Create your bot using @BotFather - give name and get token.
+2. Install packet:
+```
+yum install epel-release
+yum install python34-devel.x86_64
+```
+
+3. Create a directory for virtual enviroment (one script - one enviroment):
+```
+mkdir -p /usr/local/sbin/venvs && cd "$_"
+
+4. Create a virtual "home" for bot:
+```
+pyvenv-3.4 telebot
+
+5. Activ virtual enviroment:
+```
+source bin/activate
+```
+P.S. You should see "(telebot) root /usr/local/sbin/venvs/telebot #"
+
+6. Check updates and install modul for common with API Telegram:
+```
+pip install --upgrade pip
+pip install pytelegrambotapi
+```
+
+7. Check:
+```
+python
+```
+P.S. You should see this:
+```
+Python 3.4.5 (default, May 29 2017, 15:17:55)
+[GCC 4.8.5 20150623 (Red Hat 4.8.5-11)] on linux
+Type "help", "copyright", "credits" or "license" for more information.
+>>>
+```
+
+8. Import module:
+```
+>>> import pytelegrambotapi
+```
+or
+```
+>>> import telebot
+```
+
+9. Create script:
+```
+mkdir body && vim body/bot.py
+```
+```
+#!/usr/bin/python3
+ 
+import os
+import telebot
+import logging
+ 
+TOKEN = os.environ['TELETOKEN']
+ 
+bot = telebot.TeleBot(TOKEN)
+logger = telebot.logger
+telebot.logger.setLevel(logging.DEBUG)
+ 
+@bot.message_handler(commands=['help', 'start'])
+def send_welcome(message):
+    bot.reply_to(message, """\
+    Hi there, I am EchoBot.\
+    I am here to echo your kind words back to you.\
+    Just say anything nice and I'll say the exact same thing to you!\
+    """)
+ 
+@bot.message_handler(content_types=["text"])
+def repeat_all_messages(message):
+    bot.send_message(message.chat.id, message.text)
+ 
+bot.polling(none_stop=True)
+
+Start bot for checking:
+python3 body/bot.py
+And check performance in Telegram!
+Create file /etc/systemd/system/venv-telebot.service:
+
+[Unit]
+Description=Telegram bot written on python 3.4 and executed at python virtual env
+After=syslog.target network.target
+ 
+[Service]
+Type=simple
+User=nobody
+Group=nobody
+WorkingDirectory=/usr/local/sbin/venvs/telebot
+ExecStart=/usr/local/sbin/venvs/telebot/bin/python3 body/bot.py
+Restart=on-abort
+ 
+Environment=VIRTUAL_ENV=/usr/local/sbin/venvs/telebot
+Environment=TELETOKEN=AAAAA-hsnheHG3nBSbv2MM23bsallOpwkes
+Environment=PATH=$VIRTUAL_ENV/bin:$PATH
+ 
+[Install]
+WantedBy=multi-user.target
+```
+
+10. Autoload:
+```
+systemctl enable venv-telebot.service
+```
+
+11. Start bot:
+```
+systemctl start venv-telebot.service
+```
